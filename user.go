@@ -1,4 +1,4 @@
-package main
+package speedtest
 
 import (
 	"bytes"
@@ -21,12 +21,10 @@ type Users struct {
 	Users []User `xml:"client"`
 }
 
-func fetchUserInfo() User {
+func FetchUserInfo() User {
 	// Fetch xml user data
-	resp, err := http.Get("http://speedtest.net/speedtest-config.php")
-	checkError(err)
-	body, err := ioutil.ReadAll(resp.Body)
-	checkError(err)
+	resp, _ := http.Get("http://speedtest.net/speedtest-config.php")
+	body, _ := ioutil.ReadAll(resp.Body)
 	defer resp.Body.Close()
 
 	// Decode xml

@@ -1,4 +1,4 @@
-package main
+package speedtest
 
 import (
 	"fmt"
@@ -123,8 +123,7 @@ func dlWarmUp(wg *sync.WaitGroup, dlURL string) {
 	size := dlSizes[2]
 	url := dlURL + "/random" + strconv.Itoa(size) + "x" + strconv.Itoa(size) + ".jpg"
 
-	resp, err := client.Get(url)
-	checkError(err)
+	resp, _ := client.Get(url)
 	defer resp.Body.Close()
 	ioutil.ReadAll(resp.Body)
 
@@ -136,8 +135,7 @@ func ulWarmUp(wg *sync.WaitGroup, ulURL string) {
 	v := url.Values{}
 	v.Add("content", strings.Repeat("0123456789", size*100-51))
 
-	resp, err := client.PostForm(ulURL, v)
-	checkError(err)
+	resp, _ := client.PostForm(ulURL, v)
 	defer resp.Body.Close()
 	ioutil.ReadAll(resp.Body)
 
@@ -148,8 +146,7 @@ func downloadRequest(wg *sync.WaitGroup, dlURL string, w int) {
 	size := dlSizes[w]
 	url := dlURL + "/random" + strconv.Itoa(size) + "x" + strconv.Itoa(size) + ".jpg"
 
-	resp, err := client.Get(url)
-	checkError(err)
+	resp, _ := client.Get(url)
 	defer resp.Body.Close()
 	ioutil.ReadAll(resp.Body)
 
@@ -162,8 +159,7 @@ func uploadRequest(wg *sync.WaitGroup, ulURL string, w int) {
 	v := url.Values{}
 	v.Add("content", strings.Repeat("0123456789", size*100-51))
 
-	resp, err := client.PostForm(ulURL, v)
-	checkError(err)
+	resp, _ := client.PostForm(ulURL, v)
 	defer resp.Body.Close()
 	ioutil.ReadAll(resp.Body)
 
@@ -177,9 +173,8 @@ func pingTest(sURL string) time.Duration {
 	l := time.Duration(100000000000) // 10sec
 	for i := 0; i < 3; i++ {
 		sTime := time.Now()
-		resp, err := http.Get(pingURL)
+		resp, _ := http.Get(pingURL)
 		fTime := time.Now()
-		checkError(err)
 		defer resp.Body.Close()
 		if fTime.Sub(sTime) < l {
 			l = fTime.Sub(sTime)
