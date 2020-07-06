@@ -145,15 +145,19 @@ func (s Server) Show() {
 }
 
 // StartTest : start testing to the servers.
-func (svrs Servers) StartTest() {
+func (svrs Servers) StartTest(print bool) {
 	for i, s := range svrs {
 		s.Show()
-		latency := pingTest(s.URL)
-		dlSpeed := downloadTest(s.URL, latency)
-		ulSpeed := uploadTest(s.URL, latency)
+		latency := pingTest(s.URL, print)
+		dlSpeed := DownloadTest(s.URL, latency, print)
+		ulSpeed := UploadTest(s.URL, latency, print)
 		svrs[i].DLSpeed = dlSpeed
 		svrs[i].ULSpeed = ulSpeed
 	}
+}
+
+func (svrs Servers) Test() {
+
 }
 
 // ShowResult : show testing result

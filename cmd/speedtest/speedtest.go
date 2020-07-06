@@ -34,6 +34,6 @@ func main() {
 	}
 
 	targets := list.FindServer(*serverIds)
-	targets.StartTest()
+	targets.StartTest(true)
 	targets.ShowResult()
 }
